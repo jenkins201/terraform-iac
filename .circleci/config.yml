@@ -41,9 +41,14 @@ workflows:
               only: /.*/
             branches:
               only: /.*/
+      - hold:
+          type: approval
+          requires:
+           - plan
       - apply:
           requires:
             - plan
+            - hold
           filters:
             tags:
               only: /.*/
