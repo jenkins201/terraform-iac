@@ -1,0 +1,52 @@
+version: 2
+jobs:
+  plan:
+    docker:
+      - image: jenkins201/hashicorp-ci:latest
+    steps:
+      - checkout
+      - run:
+          command: mkdir plan
+      - run:
+          name: Terraform plan
+          command: |
+            terraform init
+            terraform plan -out=plan/plan.out
+      - persist_to_workspace:
+          root: ./
+          paths:
+            - plan/plan.out
+            - .terraform
+
+  apply:
+    docker:
+      - image: jenkins201/hashicorp-ci:latest
+    steps:
+      - checkout
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Terraform apply
+          command: |
+            terraform init
+            terraform apply /tmp/workspace/plan/plan.out
+
+workflows:
+  version: 2
+  plan-and-apply:
+    jobs:
+      - plan:
+          filters:
+            tags:
+              only: /.*/
+            branches:
+              only: /.*/
+      - apply:
+          requires:
+            - plan
+          filters:
+            tags:
+              only: /.*/
+            branches:
+              only: /master/
+
