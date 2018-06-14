@@ -16,7 +16,12 @@ pipeline {
       steps {
         deleteDir()
         checkout scm
-        echo "My branch is: ${env.BRANCH_NAME}"
+        // env.BRANCH_NAME is for Multi-branch pipeline jobs only
+        echo "env.BRANCH_NAME: ${env.BRANCH_NAME}"
+        echo "BRANCH_NAME: ${BRANCH_NAME}"
+
+        def branchName = getCurrentBranch()
+        echo 'My branch is' + branchName
 
         withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
                           credentialsId: 'demo-aws-creds',
@@ -57,4 +62,11 @@ pipeline {
       }
     }
   }
+}
+
+def getCurrentBranch () {
+    return sh (
+        script: 'git rev-parse --abbrev-ref HEAD',
+        returnStdout: true
+    ).trim()
 }
