@@ -3,7 +3,7 @@ def AWS_CREDENTIALS_ID = 'b18defc6-8872-41ca-a283-afc64f68b857'
 pipeline {
   agent {
     docker {
-      image 'jenkins201/hashicorp-ci:latest
+      image 'jenkins201/hashicorp-ci:latest'
     }
   }
 
