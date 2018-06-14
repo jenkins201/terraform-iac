@@ -34,7 +34,9 @@ pipeline {
       // TODO: this should be outside the implicit node definition, but then we'd
       // have to work out how to manage the plan/plan.out being persisted between stages
       // (probably use stash & unstash?)
-      input 'Do you approve the apply?'
+      steps {
+        input 'Do you approve the apply?'
+      }
     }
 
     stage('Terraform Apply') {
