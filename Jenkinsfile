@@ -16,9 +16,6 @@ pipeline {
         checkout scm
         // env.BRANCH_NAME is for Multi-branch pipeline jobs only
         echo "env.BRANCH_NAME: ${env.BRANCH_NAME}"
-        echo "BRANCH_NAME: ${BRANCH_NAME}"
-
-        echo 'My branch is' + getCurrentBranch()
 
         withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
                           credentialsId: 'demo-aws-creds',
@@ -59,11 +56,4 @@ pipeline {
       }
     }
   }
-}
-
-def getCurrentBranch () {
-    return sh (
-        script: 'git rev-parse --abbrev-ref HEAD',
-        returnStdout: true
-    ).trim()
 }
