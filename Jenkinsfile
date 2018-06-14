@@ -14,6 +14,7 @@ pipeline {
   stages {
     stage('Terraform Plan') {
       steps {
+        deleteDir()
         checkout scm
         echo "My branch is: ${env.BRANCH_NAME}"
 
