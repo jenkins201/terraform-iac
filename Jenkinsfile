@@ -1,5 +1,3 @@
-def AWS_CREDENTIALS_ID = 'b18defc6-8872-41ca-a283-afc64f68b857'
-
 pipeline {
   agent {
     docker {
@@ -20,8 +18,7 @@ pipeline {
         echo "env.BRANCH_NAME: ${env.BRANCH_NAME}"
         echo "BRANCH_NAME: ${BRANCH_NAME}"
 
-        def branchName = getCurrentBranch()
-        echo 'My branch is' + branchName
+        echo 'My branch is' + getCurrentBranch()
 
         withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
                           credentialsId: 'demo-aws-creds',
