@@ -7,9 +7,9 @@ pipeline {
 
   stages {
     stage('Terraform Plan - All regions') {
-      agent { docker { image 'jenkins201/hashicorp-ci:latest' } }
       parallel {
         stage('Terraform Plan - eu-west-1') {
+          agent { docker { image 'jenkins201/hashicorp-ci:latest' } }
           steps {
             deleteDir()
             checkout scm
@@ -30,6 +30,7 @@ pipeline {
           }
         }
         stage('Terraform Plan - dummy') {
+          agent { docker { image 'jenkins201/hashicorp-ci:latest' } }
           steps {
             sh "dummy step, check another region/deployment here?"
           }
